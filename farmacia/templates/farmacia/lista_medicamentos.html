@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Farmacia - SENA ADSO</title>
+    <style>
+        /* Estilos generales y centrado */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Tipografía roja y títulos */
+        h1 {
+            color: #d32f2f;
+            border-bottom: 3px solid #d32f2f;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: inline-block;
+        }
+
+        .stats {
+            background-color: #ffffff;
+            padding: 12px 25px;
+            border-radius: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            display: inline-block;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+            color: #555;
+            border: 1px solid #eee;
+        }
+
+        .stats strong {
+            color: #d32f2f;
+            font-size: 1.3em;
+        }
+
+        /* Cuadrícula de tarjetas (Grid) */
+        .grid-medicamentos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            text-align: left;
+        }
+
+        /* Tarjetas de medicamentos */
+        .card {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            border-top: 5px solid #d32f2f; /* Acento rojo superior */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(211, 47, 47, 0.2);
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 1.4em;
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 12px;
+            margin-bottom: 15px;
+        }
+
+        .card p {
+            margin: 10px 0;
+            color: #444;
+            font-size: 1.05em;
+        }
+
+        .precio {
+            font-size: 1.3em !important;
+            font-weight: bold;
+            color: #27ae60 !important;
+        }
+
+        /* Etiquetas visuales para la receta */
+        .receta-si {
+            display: inline-block;
+            background-color: #ffebee;
+            color: #d32f2f;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.85em;
+            margin-top: 5px;
+        }
+
+        .receta-no {
+            display: inline-block;
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.85em;
+            margin-top: 5px;
+        }
+
+        .empty-message {
+            color: #7f8c8d;
+            font-style: italic;
+            margin-top: 40px;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Inventario de Farmacia</h1>
+        
+        <br>
+        <div class="stats">
+            Total de productos registrados: <strong>{{ total_medicamentos }}</strong>
+        </div>
+
+        {% if medicamentos %}
+            <div class="grid-medicamentos">
+                {% for medicamento in medicamentos %}
+                    <div class="card">
+                        <h3>{{ medicamento.nombre_producto }}</h3>
+                        <p><strong>Laboratorio:</strong> {{ medicamento.laboratorio }}</p>
+                        <p class="precio">Precio: ${{ medicamento.precio }}</p>
+                        <p>
+                            {% if medicamento.requiere_receta %}
+                                <span class="receta-si">⚠️ Venta bajo fórmula médica</span>
+                            {% else %}
+                                <span class="receta-no">✅ Venta libre</span>
+                            {% endif %}
+                        </p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="empty-message">No hay medicamentos registrados en la farmacia actualmente.</p>
+        {% endif %}
+    </div>
+
+</body>
+</html>
